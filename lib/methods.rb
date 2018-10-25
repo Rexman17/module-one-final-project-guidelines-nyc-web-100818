@@ -17,11 +17,18 @@ def day_length
   puts "Day length today is #{hour} hours and #{min} minutes."
 end
 
-def least_rain_forecast(current_city)
-  puts "#{current_city.name}"
-
-  current_city.city_weathers.each do
+def least_rain_forecast
+  rain_hash = {}
+  city_weather_today_and_forecast.each do |cw|
+    if rain_hash[cw.city["name"]] == nil
+      rain_hash[cw.city["name"]] = 0
+    end
+    if ["Heavy Rain","Light Rain","Showers","Thunder"].include?(cw.weather["weather_type"])
+      rain_hash[cw.city["name"]] += 1
+    end
   end
+  binding.pry
+  puts "#{current_city.name} with zero rainy days." #finish this
 end
 
 def city_weather_today_and_forecast #returns CityWeather for today and future dates
@@ -42,6 +49,7 @@ def hottest_day #will find hottest day instance in the next 6 days
 end
 
 #hottest_day.city["name"] will return city name with hottest day
+#calculate average for week
 
 def coolest_day
   city_weather_today_and_forecast.min_by do |cw|

@@ -21,6 +21,15 @@ class API
       "5" => "Singapore",
       "6" => "Barcelona"
     }
+    @emojis = {
+      "Thunderstorm" => ⛈️,
+      "Heavy Rain" => ☔️,
+      "Light Rain" => 💧,
+      "Showers" => 🌧,
+      "Heavy Cloud" => ☁️,
+      "Light Cloud" => 🌤,
+      "Clear" => ☀️
+    }
   end
 
   def city_selection

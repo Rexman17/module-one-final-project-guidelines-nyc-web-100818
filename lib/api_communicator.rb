@@ -22,13 +22,13 @@ class API
       "6" => "Barcelona"
     }
     @emojis = {
-      "Thunderstorm" => ⛈️,
-      "Heavy Rain" => ☔️,
-      "Light Rain" => 💧,
-      "Showers" => 🌧,
-      "Heavy Cloud" => ☁️,
-      "Light Cloud" => 🌤,
-      "Clear" => ☀️
+      "Thunderstorm" => "⛈️",
+      "Heavy Rain" => "☔️",
+      "Light Rain" => "💧",
+      "Showers" => "🌧",
+      "Heavy Cloud" => "☁️",
+      "Light Cloud" => "🌤",
+      "Clear" => "☀️"
     }
   end
 
@@ -77,8 +77,8 @@ class API
   def city_today_info(current_city, today)
     puts "Today's Forecast for #{current_city.name}:\n\n"
 
-    puts "#{today.weather["weather_type"]}"
-    # binding.pry
+    puts "#{today.weather["weather_type"]} - #{@emojis[today.weather["weather_type"]]}"
+
     puts "High - #{celsius_fahrenheit(today["daily_high"])} ºF"
     puts "Low - #{celsius_fahrenheit(today["daily_low"])} ºF"
     sr1 = today["sun_rise"].split(/[T.]/)[1]
@@ -94,8 +94,9 @@ class API
   end
 
   def week_forecast(current_city)
+      # binding.pry
     puts "\n\n#{current_city.name} weekly forecast:\n\n"
-    puts "Weekly average high is #{celsius_fahrenheit(current_city.average_high)} ºF\n"
+    puts "Weekly average high is #{celsius_fahrenheit(current_city.average_high)} ºF\n" # don't these need to use the special method now too?
     puts "Weekly average low is #{celsius_fahrenheit(current_city.average_low)} ºF\n"
     current_city.temp_range
 

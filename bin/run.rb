@@ -9,7 +9,8 @@ def menu1_method_wrapper
   api.populate_db(hash)
   current_city = api.selected_city(selection)
   today = today_weather(current_city)
-  api.city_today_info(current_city, today)
+  tomorrow = tomorrow_weather(current_city)
+  api.city_today_info(current_city, today, tomorrow)
   api.week_forecast(current_city)
   sleep(2)
 end
@@ -61,6 +62,7 @@ def prompt_user(prompt)
         break
       when 3
         least_rain_forecast
+        least_rain_display(least_rain_forecast)
         sleep(2)
         menu2
         input = gets.chomp.to_i

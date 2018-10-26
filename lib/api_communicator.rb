@@ -74,8 +74,8 @@ class API
     City.find_by(name: city)
   end
 
-  def city_today_info(current_city, today)
-    puts "Today's Forecast for #{current_city.name}:\n\n"
+  def city_today_info(current_city, today, tomorrow)
+    puts "\nToday's Forecast for #{current_city.name}:\n\n"
 
     puts "#{today.weather["weather_type"]}"
     # binding.pry
@@ -89,7 +89,14 @@ class API
     ss3 = "#{ss2[0].to_i - 12}:#{ss2[1]}" #fix leading zero missing
     puts "Sunrise - #{sr3} AM"
     puts "Sunset - #{ss3} PM"
-    #put weather state here somehwere
+    day_length(today)
+    if tomorrow["daily_high"] > today["daily_high"]
+      puts "Tomorrow will be #{celsius_fahrenheit(tomorrow["daily_high"]) - celsius_fahrenheit(today["daily_high"])} degree(s) warmer than today."
+    elsif tomorrow["daily_high"] < today["daily_high"]
+      puts "Tomorrow will be #{celsius_fahrenheit(today["daily_high"]) - celsius_fahrenheit(tomorrow["daily_high"])} degree(s) colder than today."
+    end #consider refactoring this to be less ugly
+    # puts "#{celsius_fahrenheit(current_city.max_temp["daily_high"])}"
+    # puts "#{celsius_fahrenheit(current_city.min_temp["daily_low"])}"
     # binding.pry
   end
 
@@ -97,7 +104,7 @@ class API
     puts "\n\n#{current_city.name} weekly forecast:\n\n"
     puts "Weekly average high is #{celsius_fahrenheit(current_city.average_high)} ºF\n"
     puts "Weekly average low is #{celsius_fahrenheit(current_city.average_low)} ºF\n"
-    current_city.temp_range
+    puts "#{current_city.temp_range}"
 
     #put weather state icon for each day
   end

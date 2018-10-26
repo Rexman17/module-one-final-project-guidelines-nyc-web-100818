@@ -1,9 +1,9 @@
 require_relative '../config/environment'
 require 'pry'
 
-def day_length
-  sun_rise = "2018-10-24T06:12:59.885084-02:00"
-  sun_set = "2018-10-24T19:29:15.416047-02:00"
+def day_length(today) #puts string of hours and minutes of daylight
+  sun_rise = today["sun_rise"]
+  sun_set = today["sun_set"]
   sr1 = sun_rise.split(/[T.]/)[1]
   ss1 = sun_set.split(/[T.]/)[1]
   sr2 = sr1.split(":")
@@ -14,10 +14,10 @@ def day_length
     hour += 1
     min -= 60
   end
-  puts "Day length today is #{hour} hours and #{min} minutes."
+  puts "#{hour} hours and #{min} minutes of daylight."
 end
 
-def least_rain_forecast
+def least_rain_forecast #returns an array of cities & number of rainy days
   rain_hash = {}
   city_weather_today_and_forecast.each do |cw|
     if rain_hash[cw.city["name"]] == nil
@@ -27,8 +27,24 @@ def least_rain_forecast
       rain_hash[cw.city["name"]] += 1
     end
   end
-  binding.pry
-  puts "#{current_city.name} with zero rainy days." #finish this
+  sorted_rain_array = rain_hash.sort_by { |k,v| v }
+  sorted_rain_array
+end
+
+def least_rain_display(least_rain_forecast)
+  puts "The three cities with the least rain this coming week are:\n\n"
+  least_rain_forecast.take(3).each do |e|
+    if e[1] == 0
+      puts "#{e[0]} - no rain this week! 🙂"
+    elsif e[1] == 1
+      puts "#{e[0]} - 1 day of rain. 🌧"
+    else
+      puts "#{e[0]} - #{e[1]} days of rain. 🌧"
+    end
+  end
+end
+
+def most_sunlight
 end
 
 def city_weather_today_and_forecast #returns CityWeather for today and future dates
@@ -66,6 +82,13 @@ def today_weather(current_city) #returns CityWeather instance for passed in city
   now = DateTime.now
   current_city.city_weathers.find do |cw|
     cw["date"] == "#{now.year}-#{now.month}-#{now.day}"
+  end
+end
+
+def tomorrow_weather(current_city) #returns CityWeather instance for passed in city
+  tomorrow = DateTime.now + 1
+  current_city.city_weathers.find do |cw|
+    cw["date"] == "#{tomorrow.year}-#{tomorrow.month}-#{tomorrow.day}"
   end
 end
 

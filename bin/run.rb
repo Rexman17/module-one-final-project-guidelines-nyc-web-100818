@@ -1,5 +1,14 @@
 require_relative '../config/environment'
 
+def continue_prompt
+  user_input = 0
+  while user_input != "1"
+    puts "\nPress '1' to continue"
+    user_input = gets.chomp
+  end
+end
+
+
 def menu1_method_wrapper
   menu
   api = API.new
@@ -12,7 +21,8 @@ def menu1_method_wrapper
   tomorrow = tomorrow_weather(current_city)
   api.city_today_info(current_city, today, tomorrow)
   api.week_forecast(current_city)
-  sleep(2)
+  user_input = 0
+  continue_prompt
 end
 
 # def menu2_method_wrapper
@@ -43,19 +53,20 @@ def prompt_user(prompt)
   while prompt
     case prompt
       when 1
-        puts "The city with the hottest forecast is:\n\n
-        #{hottest_day.city["name"]}\n
+
+        puts "The destination with the hottest forecast is:\n\n
+        #{hottest_day.city["name"]} - #{conv_c_to_f(hottest_day['daily_high'])} ºF 🔴\n
         "
-        sleep(2)
+        continue_prompt
         menu2
         input = gets.chomp.to_i
         prompt_user(input)
         break
       when 2
-        puts "The city with the coolest forecast is:\n\n
-        #{coolest_day.city["name"]}\n
+        puts "The destination with the coolest forecast is:\n\n
+        #{coolest_day.city["name"]} - #{conv_c_to_f(coolest_day['daily_high'])} ºF 🔵\n
         "
-        sleep(2)
+        continue_prompt
         menu2
         input = gets.chomp.to_i
         prompt_user(input)
@@ -63,33 +74,35 @@ def prompt_user(prompt)
       when 3
         least_rain_forecast
         least_rain_display(least_rain_forecast)
-        sleep(2)
+        continue_prompt
         menu2
         input = gets.chomp.to_i
         prompt_user(input)
         break
-      when 5
+      when 4
         latest_sunset # reformat time?
-        sleep(2)
+        continue_prompt
         menu2
         input = gets.chomp.to_i
         prompt_user(input)
         break
-      when 7 # go back to first menu
+      when 5 # go back to first menu
         menu1_method_wrapper
         menu2
         input = gets.chomp.to_i
         prompt_user(input)
         break
-      # when 8 # go to aggregate weather info page
-      #   # we don't have this yet
-      #   binding.pry
-      #   menu3
-      #   break
-      when 8
+      when 6
         "\n"
         exit_weather_app # calling this method in cli.rb
-      break
+        break
+      else
+        puts "Please choose a valid option.".colorize(color: :white, background: :red)
+        puts "\n"
+        menu2
+        input = gets.chomp.to_i
+        prompt_user(input)
+        break
     end
   end
 end
@@ -100,8 +113,5 @@ menu1_method_wrapper
 menu2
 user_input = gets.chomp.to_i
 prompt_user(user_input)
-latest_sunset
 
-binding.pry
-
-puts "END"
+# binding.pry

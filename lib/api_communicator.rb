@@ -37,7 +37,8 @@ class API
     while true
       user_input = gets.chomp.to_i
       if user_input > 6 || user_input < 1
-        puts "Please select a number from 1 to 6.\n"
+        puts "Please choose a valid option (1 to 6).".colorize(color: :white, background: :red)
+        puts "\n"
         next
       elsif user_input <= 6 || user_input >= 1
         break
@@ -75,23 +76,27 @@ class API
   end
 
   def city_today_info(current_city, today, tomorrow)
-    puts "\nToday's Forecast for #{current_city.name}:\n\n"
+    puts "\n================================================"
+    puts "Today's Forecast for #{current_city.name}:"
+    puts "================================================\n\n"
 
-    puts "#{today.weather["weather_type"]} - #{@emojis[today.weather["weather_type"]]}"
+    puts "#{today.weather["weather_type"]} - #{@emojis[today.weather["weather_type"]]}\n"
 
-    puts "High - #{celsius_fahrenheit(today["daily_high"])} ºF"
-    puts "Low - #{celsius_fahrenheit(today["daily_low"])} ºF"
     sr1 = today["sun_rise"].split(/[T.]/)[1]
     sr2 = sr1.split(":")
     sr3 = "#{sr2[0]}:#{sr2[1]}"
     ss1 = today["sun_set"].split(/[T.]/)[1]
     ss2 = ss1.split(":", -1)
     ss3 = "#{ss2[0].to_i - 12}:#{ss2[1]}" #fix leading zero missing
-    puts "Sunrise - #{sr3} AM"
-    puts "Sunset - #{ss3} PM"
+
+    puts "High - #{celsius_fahrenheit(today["daily_high"])} ºF   |   Sunrise - #{sr3} AM"
+    puts "Low - #{celsius_fahrenheit(today["daily_low"])} ºF    |   Sunset - #{ss3} PM\n\n"
+
+    # puts "Sunrise - #{sr3} AM"
+    # puts "Sunset - #{ss3} PM"
     day_length(today)
     if tomorrow["daily_high"] > today["daily_high"]
-      puts "Tomorrow will be #{celsius_fahrenheit(tomorrow["daily_high"]) - celsius_fahrenheit(today["daily_high"])} degree(s) warmer than today."
+      puts "\nTomorrow will be #{celsius_fahrenheit(tomorrow["daily_high"]) - celsius_fahrenheit(today["daily_high"])} degree(s) warmer than today."
     elsif tomorrow["daily_high"] < today["daily_high"]
       puts "Tomorrow will be #{celsius_fahrenheit(today["daily_high"]) - celsius_fahrenheit(tomorrow["daily_high"])} degree(s) colder than today."
     end #consider refactoring this to be less ugly
@@ -102,10 +107,12 @@ class API
 
   def week_forecast(current_city)
       # binding.pry
-    puts "\n\n#{current_city.name} weekly forecast:\n\n"
+    puts "\n\n================================================"
+    puts "#{current_city.name} weekly forecast:"
+    puts "================================================\n\n"
     puts "Weekly average high is #{celsius_fahrenheit(current_city.average_high)} ºF\n" # don't these need to use the special method now too?
     puts "Weekly average low is #{celsius_fahrenheit(current_city.average_low)} ºF\n"
-    puts "#{current_city.temp_range}"
+    # puts "#{current_city.temp_range}"
 
     #put weather state icon for each day
   end

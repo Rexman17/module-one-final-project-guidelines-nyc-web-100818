@@ -32,7 +32,7 @@ def least_rain_forecast #returns an array of cities & number of rainy days
 end
 
 def least_rain_display(least_rain_forecast)
-  puts "The three cities with the least rain this coming week are:\n\n"
+  puts "The destinations with the least rain this coming week are:\n\n"
   least_rain_forecast.take(3).each do |e|
     if e[1] == 0
       puts "#{e[0]} - no rain this week! 🙂"
@@ -55,9 +55,7 @@ def city_weather_today_and_forecast #returns CityWeather for today and future da
     converted_time1 = DateTime.new
     converted_time2 = converted_time1.change(year: split[0].to_i, month: split[1].to_i, day: split[2].to_i)
     converted_time2 >= now2
-      # binding.pry
   end
-
 end
 
 def hottest_day #will find hottest day instance in the next 6 days
@@ -101,20 +99,23 @@ def dt_conversion(string)
   converted_time2
 end
 
-# ali methods
 def latest_sunset
-  latest_sunset = "0"
-  sunset_city = ''
-  city_weather_today_and_forecast.select do |cw|
-    sunset_time = cw.sun_set.split(/[T.]/)[1]
-    if sunset_time > latest_sunset
-      latest_sunset = sunset_time
-      sunset_city = cw.city[:name]
-    end
-  end
-  puts "#{sunset_city} has the latest sunset at #{latest_sunset}."
+ latest_sunset = "0"
+ sunset_city = ''
+ city_weather_today_and_forecast.select do |cw|
+   sunset_time = cw.sun_set.split(/[T.]/)[1]
+   if sunset_time > latest_sunset
+     latest_sunset = sunset_time
+     sunset_city = cw.city[:name]
+   end
+ end
+ sun_split = latest_sunset.split(":")
+ puts "The destination with the latest sunset is:\n\n
+ #{sunset_city} - #{sun_split[0].to_i - 12}:#{sun_split[1]} PM  🌅
+ "
 end
-#
-# def hottest
-#
-# end
+
+def conv_c_to_f(c)
+  f = ( c * 9 / 5) + 32
+  f.to_i
+end

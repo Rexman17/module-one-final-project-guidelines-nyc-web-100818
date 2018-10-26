@@ -55,7 +55,9 @@ def city_weather_today_and_forecast #returns CityWeather for today and future da
     converted_time1 = DateTime.new
     converted_time2 = converted_time1.change(year: split[0].to_i, month: split[1].to_i, day: split[2].to_i)
     converted_time2 >= now2
+      # binding.pry
   end
+
 end
 
 def hottest_day #will find hottest day instance in the next 6 days
@@ -98,3 +100,21 @@ def dt_conversion(string)
   converted_time2 = converted_time1.change(year: split[0].to_i, month: split[1].to_i, day: split[2].to_i)
   converted_time2
 end
+
+# ali methods
+def latest_sunset
+  latest_sunset = "0"
+  sunset_city = ''
+  city_weather_today_and_forecast.select do |cw|
+    sunset_time = cw.sun_set.split(/[T.]/)[1]
+    if sunset_time > latest_sunset
+      latest_sunset = sunset_time
+      sunset_city = cw.city[:name]
+    end
+  end
+  puts "#{sunset_city} has the latest sunset at #{latest_sunset}."
+end
+#
+# def hottest
+#
+# end

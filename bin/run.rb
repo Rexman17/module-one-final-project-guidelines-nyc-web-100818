@@ -68,6 +68,13 @@ def prompt_user(prompt)
         input = gets.chomp.to_i
         prompt_user(input)
         break
+      when 5
+        latest_sunset # reformat time?
+        sleep(2)
+        menu2
+        input = gets.chomp.to_i
+        prompt_user(input)
+        break
       when 7 # go back to first menu
         menu1_method_wrapper
         menu2
@@ -93,6 +100,7 @@ menu1_method_wrapper
 menu2
 user_input = gets.chomp.to_i
 prompt_user(user_input)
+latest_sunset
 
 binding.pry
 

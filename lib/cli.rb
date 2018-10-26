@@ -14,8 +14,6 @@ def menu
   4. Cairo
   5. Singapore
   6. Barcelona
-
-  Type 'exit' to exit program.
   "
 end
 
